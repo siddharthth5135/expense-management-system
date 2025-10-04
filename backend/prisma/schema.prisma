@@ -24,6 +24,7 @@ model User {
   companyId    Int?
   managerId    Int?
   expenses     Expense[]
+  ruleApprovers RuleApprover[]  
 }
 
 model Company {
@@ -33,6 +34,7 @@ model Company {
   currency   String
   users      User[]
   rules      Rule[]
+  expenses   Expense[]   
 }
 
 model Expense {
