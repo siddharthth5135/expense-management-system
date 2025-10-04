@@ -59,7 +59,13 @@ export const createAdmin = async(req,res)=>{
     });
 
     //create jwt token
-    const token = jwt.sign({userId : user.id,email : user.email,role : user.role},process.env.JWT_SECRET,{expiresIn : '7d'})
+    const token = jwt.sign(
+      {
+        userId : user.id,email : user.email,role : user.role,companyId: user.companyId
+      }
+      ,process.env.JWT_SECRET
+      ,{expiresIn : '7d'}
+    )
 
      res.cookie("token", token, {
           httpOnly: true,
@@ -128,7 +134,7 @@ export const createUser = async (req, res) => {
     });
 
     //create jwt token
-    const token = jwt.sign({userId : user.id,email : user.email,role : user.role},process.env.JWT_SECRET,{expiresIn : '7d'})
+    const token = jwt.sign({userId : user.id,email : user.email,role : user.role,companyId : user.companyId},process.env.JWT_SECRET,{expiresIn : '7d'})
 
      res.cookie("token", token, {
           httpOnly: true,
@@ -192,7 +198,7 @@ export const loginUser = async (req, res) => {
 
     //Generate JWT token
     const token = jwt.sign(
-      { userId: user.id, role: user.role ,email: user.email},
+      { userId: user.id, role: user.role ,email: user.email,companyId : user.companyId},
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );

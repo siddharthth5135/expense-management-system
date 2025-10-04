@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  output   = "./generated"
 }
 
 datasource db {
@@ -48,7 +48,7 @@ model Expense {
   category    String
   description String
   date        DateTime
-  status      String    @default("pending")
+  status      String    @default("draft")
   approvals   Approval[]
 }
 

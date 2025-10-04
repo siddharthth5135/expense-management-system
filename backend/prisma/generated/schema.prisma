@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int            @id @default(autoincrement())
+  name          String
+  email         String         @unique
+  password      String
+  role          String
+  company       Company?       @relation(fields: [companyId], references: [id])
+  companyId     Int?
+  managerId     Int?
+  expenses      Expense[]
+  ruleApprovers RuleApprover[]
+}
+
+model Company {
+  id       Int       @id @default(autoincrement())
+  name     String
+  country  String
+  currency String
+  users    User[]
+  rules    Rule[]
+  expenses Expense[]
+}
+
+model Expense {
+  id          Int        @id @default(autoincrement())
+  user        User       @relation(fields: [userId], references: [id])
+  userId      Int
+  company     Company    @relation(fields: [companyId], references: [id])
+  companyId   Int
+  amount      Float
+  currency    String
+  category    String
+  description String
+  date        DateTime
+  status      String     @default("pending")
+  approvals   Approval[]
+}
+
+model Approval {
+  id         Int     @id @default(autoincrement())
+  expense    Expense @relation(fields: [expenseId], references: [id])
+  expenseId  Int
+  approverId Int
+  stepNumber Int
+  status     String  @default("pending")
+  comments   String?
+}
+
+model Rule {
+  id                     Int            @id @default(autoincrement())
+  company                Company        @relation(fields: [companyId], references: [id])
+  companyId              Int
+  name                   String
+  description            String?
+  managerId              Int? // The manager responsible for this rule
+  isManagerApprover      Boolean        @default(false)
+  sequentialApproval     Boolean        @default(false)
+  minimumApprovalPercent Float? // e.g. 60 means at least 60% approval needed
+  approvers              RuleApprover[]
+}
+
+model RuleApprover {
+  id         Int     @id @default(autoincrement())
+  rule       Rule    @relation(fields: [ruleId], references: [id])
+  ruleId     Int
+  approver   User    @relation(fields: [approverId], references: [id])
+  approverId Int
+  sequenceNo Int? // Defines order (used only if sequentialApproval = true)
+  isRequired Boolean @default(false)
+}
