@@ -3,8 +3,8 @@ import { prisma } from "../config.js";
 import bcrypt from "bcryptjs";
 
 
-export const createAdmin = async(req,res)=>{
-    try {
+export const createAdmin = async (req, res) => {
+  try {
     const { name, email, password, companyName, country, currency } =
       req.body;
 
@@ -29,12 +29,12 @@ export const createAdmin = async(req,res)=>{
 
     //check if companyName is provided
     if (companyName) {
-      const existingCompany = await prisma.company.findUnique({
+      const existingCompany = await prisma.company.findFirst({
         where: { name: companyName },
       });
 
       if (existingCompany) {
-        return res.status(400).json({message:"Company is already created with admin",isSuccess : false})
+        return res.status(400).json({ message: "Company is already created with admin", isSuccess: false })
 
       } else {
         //create new company
@@ -59,14 +59,14 @@ export const createAdmin = async(req,res)=>{
     });
 
     //create jwt token
-    const token = jwt.sign({userId : user.id,email : user.email,role : user.role},process.env.JWT_SECRET,{expiresIn : '7d'})
+    const token = jwt.sign({ userId: user.id, email: user.email, role: user.role, companyId: user.companyId }, process.env.JWT_SECRET, { expiresIn: '7d' })
 
-     res.cookie("token", token, {
-          httpOnly: true,
-          secure: false,
-          sameSite: "lax",
-          maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,       // false for HTTP on localhost
+      sameSite: "lax",     // 'lax' works for cross-site in localhost
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     res.status(201).json({
       message: "User created successfully",
@@ -96,7 +96,7 @@ export const createAdmin = async(req,res)=>{
 
 export const createUser = async (req, res) => {
   try {
-    const { name, email, password, role,managerId,companyId} =
+    const { name, email, password, role, managerId, companyId } =
       req.body;
 
     //basic validation
@@ -128,14 +128,14 @@ export const createUser = async (req, res) => {
     });
 
     //create jwt token
-    const token = jwt.sign({userId : user.id,email : user.email,role : user.role},process.env.JWT_SECRET,{expiresIn : '7d'})
+    const token = jwt.sign({ userId: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: '7d' })
 
-     res.cookie("token", token, {
-          httpOnly: true,
-          secure: false,
-          sameSite: "lax",
-          maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
 
     res.status(201).json({
       message: "User created successfully",
@@ -192,10 +192,17 @@ export const loginUser = async (req, res) => {
 
     //Generate JWT token
     const token = jwt.sign(
-      { userId: user.id, role: user.role ,email: user.email},
+      { userId: user.id, role: user.role, email: user.email, companyId: user.companyId },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "development",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
 
     //return user info without password
     const { password: _, ...userData } = user;
@@ -213,7 +220,7 @@ export const loginUser = async (req, res) => {
   }
 }
 
-export const checkUserExist = async(req, res) => {
+export const checkUserExist = async (req, res) => {
   try {
     const { email } = req.body;
 
@@ -222,11 +229,11 @@ export const checkUserExist = async(req, res) => {
     //find email is exist or not
     const user = await prisma.user.findUnique({ where: { email } });
 
-    if (!user) 
-        return res.status(404).json({ message: "User not found" });
+    if (!user)
+      return res.status(404).json({ message: "User not found" });
 
     //user exist 
-    return res.status(200).json({message : "User Exist",isSuccess : true})
+    return res.status(200).json({ message: "User Exist", isSuccess: true })
 
   } catch (error) {
     console.error(error);
@@ -238,7 +245,7 @@ export const resetPassword = async (req, res) => {
   try {
 
 
-    const {email,newPassword, confirmPassword } = req.body;
+    const { email, newPassword, confirmPassword } = req.body;
 
     //basic validation
     if (!email || !newPassword || !confirmPassword) {
@@ -274,24 +281,25 @@ export const resetPassword = async (req, res) => {
     });
 
     res.status(200).json({ message: "Password updated successfully" });
-    
+
   } catch (error) {
     console.error("Error resetting password:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-export const getAllUser = async(req,res)=>{
+export const getAllUser = async (req, res) => {
   try {
-      const users = await prisma.user.findMany(
-        {include: 
+    const users = await prisma.user.findMany(
+      {
+        include:
           { company: true, ruleApprovers: true, expenses: true },
-        }
-      );
+      }
+    );
 
-   res.status(200).json({ message: "Users fetched successfully", users ,isSuccess: true});
-  
-  } 
+    res.status(200).json({ message: "Users fetched successfully", users, isSuccess: true });
+
+  }
   catch (error) {
     console.error("Error fetching users:", error);
     res.status(500).json({ message: "Internal server error", error: error.message });

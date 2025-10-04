@@ -1,0 +1,394 @@
+/* Import general dashboard styles if they contain common variables/mixins */
+/* @import './AdminDashboard.css'; */
+
+/* Specific styles for ApprovalRules page */
+.approval-rules-content {
+    /* Adjust padding if needed, but dashboard-main-content already handles it */
+}
+
+.approval-form {
+    background-color: #1d2d50; /* Card background */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 1200px; /* Max width for the form container */
+    margin: 30px auto; /* Center the form and provide spacing */
+}
+
+.form-sections-container {
+    display: flex;
+    gap: 30px; /* Space between left and right sections */
+    margin-bottom: 30px;
+}
+
+.form-section {
+    flex: 1; /* Each section takes equal width */
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Space between form groups within a section */
+}
+
+.form-section.full-width-section {
+    flex-direction: row; /* For sequence & percentage to be side by side on desktop */
+    justify-content: space-between;
+    align-items: flex-end; /* Align percentage input bottom */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 25px;
+}
+
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    position: relative; /* For suggestions dropdown */
+}
+
+.form-label {
+    color: #e0e0e0;
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.form-static-value {
+    background-color: #2a3e63;
+    border: 1px solid #0f3460;
+    padding: 12px 15px;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1em;
+    min-height: 44px; /* Ensure consistent height */
+    display: flex;
+    align-items: center;
+}
+
+.form-input {
+    background-color: #2a3e63;
+    border: 1px solid #0f3460;
+    padding: 12px 15px;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #27ae60;
+    box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.4);
+}
+
+.text-area {
+    resize: vertical; /* Allow vertical resizing */
+    min-height: 100px; /* Minimum height for description */
+}
+
+.description-text {
+    font-size: 0.85em;
+    color: #a0a0a0;
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+.description-text.small-text {
+    font-size: 0.75em;
+}
+
+.description-text.red-text {
+    color: #e74c3c; /* Red for warning/important notes */
+}
+
+.manager-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    position: relative;
+    padding-bottom: 25px; /* Space for the description below */
+}
+
+.manager-display .form-static-value {
+    flex-grow: 1; /* Take available space */
+}
+
+.manager-dropdown-indicator {
+    color: #a0a0a0;
+    font-size: 0.8em;
+    cursor: pointer;
+    margin-left: -5px; /* Adjust if needed to align with dropdown icon */
+}
+.manager-display .description-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+
+/* Checkbox Styling */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.modern-checkbox {
+    /* Hide default checkbox */
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #0f3460;
+    border-radius: 4px;
+    background-color: #2a3e63;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.modern-checkbox:checked {
+    background-color: #27ae60;
+    border-color: #27ae60;
+}
+
+.modern-checkbox:checked::before {
+    content: '✓'; /* Checkmark character */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+}
+
+.checkbox-label {
+    color: #e0e0e0;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+/* Approvers List Styling */
+.approvers-list-container {
+    position: relative; /* For search suggestions */
+}
+
+.approver-search-add {
+    position: relative;
+}
+
+.approver-suggestions {
+    position: absolute;
+    top: 100%; /* Below the input */
+    left: 0;
+    right: 0;
+    background-color: #2a3e63;
+    border: 1px solid #0f3460;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    margin-top: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.suggestion-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 15px;
+    background: none;
+    border: none;
+    color: #e0e0e0;
+    cursor: pointer;
+    font-size: 1em;
+    text-align: left;
+    transition: background-color 0.2s ease;
+}
+
+.suggestion-item:hover {
+    background-color: #1a519b;
+}
+.suggestion-item .icon {
+    margin-left: 10px;
+    color: #27ae60;
+}
+
+
+.selected-approvers-list {
+    margin-top: 20px;
+    border: 1px dashed #0f3460;
+    border-radius: 8px;
+    padding: 15px;
+    min-height: 100px; /* Ensure some visibility even if empty */
+    background-color: #223558;
+}
+
+.no-approvers-message {
+    color: #a0a0a0;
+    text-align: center;
+    padding: 30px 10px;
+    font-style: italic;
+}
+
+.selected-approver-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #0f3460;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 0.95em;
+    color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.selected-approver-item:last-child {
+    margin-bottom: 0;
+}
+
+.approver-order {
+    font-weight: bold;
+    margin-right: 10px;
+    color: #27ae60;
+}
+
+.approver-info {
+    flex-grow: 1;
+}
+
+.remove-approver-button {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.remove-approver-button:hover {
+    background-color: rgba(231, 76, 60, 0.2);
+}
+
+/* Minimum Approval Percentage */
+.percentage-group {
+    min-width: 180px; /* Ensure it has enough width on larger screens */
+}
+
+.input-with-symbol {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.input-with-symbol .form-input {
+    padding-right: 40px; /* Make space for the percentage symbol */
+}
+
+.percentage-symbol {
+    position: absolute;
+    right: 15px;
+    color: #a0a0a0;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+/* Save Button */
+.save-rules-button {
+    margin-top: 30px;
+    width: auto; /* Allow button to size naturally */
+    min-width: 200px;
+    align-self: flex-start; /* Align to left in form */
+    display: block; /* Take full width on small screens */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 992px) {
+    .form-sections-container {
+        flex-direction: column; /* Stack sections vertically */
+        gap: 40px;
+    }
+
+    .form-section.left-section,
+    .form-section.right-section {
+        width: 100%;
+    }
+
+    .form-section.full-width-section {
+        flex-direction: column; /* Stack sequence and percentage vertically */
+        align-items: stretch;
+    }
+
+    .save-rules-button {
+        width: 100%; /* Full width button on smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-main-content.approval-rules-content {
+        padding: 20px 15px;
+    }
+
+    .approval-form {
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    .form-label {
+        font-size: 1em;
+    }
+
+    .form-input, .form-static-value, .checkbox-label {
+        font-size: 0.95em;
+    }
+
+    .description-text {
+        font-size: 0.8em;
+    }
+
+    .manager-display .description-text {
+        position: static; /* Let it flow naturally */
+        margin-top: 10px;
+    }
+
+    .selected-approver-item {
+        flex-wrap: wrap; /* Allow content to wrap */
+    }
+
+    .approver-info {
+        flex-basis: 100%; /* Take full width below order number */
+        margin-left: 30px; /* Indent info */
+        margin-top: 5px;
+    }
+    .remove-approver-button {
+        position: absolute; /* Position close button */
+        top: 8px;
+        right: 8px;
+        background-color: rgba(231, 76, 60, 0.1);
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-title {
+        font-size: 1.8em;
+    }
+    .dashboard-subtitle {
+        font-size: 0.9em;
+    }
+    .save-rules-button {
+        padding: 10px 15px;
+        font-size: 1em;
+    }
+}
+

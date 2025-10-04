@@ -1,0 +1,450 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Modern Color Palette */
+:root {
+  --primary-bg: #1a1a2e; /* Dark background */
+  --secondary-bg: #21253a; /* Slightly lighter card background */
+  --accent-color: #00e676; /* Vibrant green accent */
+  --text-light: #e0e0e0;
+  --text-dark: #a0a0a0;
+  --input-bg: rgba(255, 255, 255, 0.05);
+  --input-border: rgba(255, 255, 255, 0.2);
+  --input-focus-border: var(--accent-color);
+  --button-hover: #00c853; /* Darker green for button hover */
+  --error-color: #ff6f61; /* Soft red for errors */
+}
+
+/* General Body and Container Styling */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif; /* Modern sans-serif font */
+  background: linear-gradient(135deg, var(--primary-bg), #0f0f1d); /* Subtle gradient background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden; /* Prevent scrollbar from animation */
+  color: var(--text-light);
+  position: relative;
+}
+
+/* Background Overlay for Expense Tracker Theme (Blurred Chart) */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://images.unsplash.com/photo-1517457210348-b7670094760a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80'); /* Abstract financial chart image */
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15; /* Subtle background */
+  filter: blur(8px) saturate(1.2); /* Blurred and slightly saturated */
+  z-index: -1; /* Behind other content */
+}
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 450px; /* Slightly narrower for a sleek look */
+  perspective: 1000px;
+}
+
+/* The Modern Card Styling */
+.register-card {
+  background: rgba(33, 37, 58, 0.95); /* Slightly transparent for depth */
+  backdrop-filter: blur(10px); /* Frosted glass effect */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px; /* More rounded corners */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Deeper, softer shadow */
+  padding: 40px;
+  text-align: center;
+  position: relative;
+  width: 100%;
+  animation: cardAppearModern 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Smoother animation curve */
+  z-index: 10; /* Ensure the card itself is above the background and below dropdown */
+}
+
+@keyframes cardAppearModern {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Header Text Styling */
+.admin-note {
+  color: var(--error-color); /* Soft red for warning/note */
+  font-weight: 500;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  opacity: 0;
+}
+
+.register-title {
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-light);
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 2.2rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  opacity: 0;
+}
+
+/* Form Group Styling */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-group {
+  text-align: left;
+  position: relative;
+  opacity: 0;
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center; /* Vertically center icon with input */
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--text-dark);
+  width: 20px; /* SVG size */
+  height: 20px; /* SVG size */
+  transition: color 0.3s ease-in-out;
+}
+
+.modern-input {
+  width: calc(100% - 24px - 35px); /* Account for padding and icon space */
+  padding: 12px 12px 12px 45px; /* Left padding for icon */
+  border: 1px solid var(--input-border);
+  border-radius: 8px; /* Consistent rounded corners */
+  background-color: var(--input-bg);
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  color: var(--text-light);
+  transition: all 0.3s ease-in-out;
+  appearance: none; /* Remove default browser styling for consistency */
+}
+
+.modern-input::placeholder {
+  color: var(--text-dark);
+}
+
+.modern-input:focus {
+  outline: none;
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.3); /* Soft glow */
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.modern-input:focus + .input-icon {
+  color: var(--accent-color); /* Change icon color on focus */
+}
+
+/* Validation specific styles */
+.input-error {
+  border-color: var(--error-color) !important;
+  box-shadow: 0 0 0 3px rgba(255, 111, 97, 0.3) !important;
+}
+
+.password-error {
+  color: var(--error-color);
+  font-size: 0.85rem;
+  margin-top: 5px;
+  text-align: left;
+  animation: shake 0.5s ease-in-out; /* Little shake animation */
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+/* react-select specific styling - using modernCustomStyles from JSX for inline overrides */
+/* However, we can still target it with classNamePrefix for base styles if needed */
+.modern-react-select__control {
+  /* Most styles handled by modernCustomStyles in JSX */
+  padding-left: 45px !important; /* Adjust for icon */
+}
+.modern-react-select__control--is-focused + .input-icon {
+  color: var(--accent-color);
+}
+
+
+/* Signup Button Styling */
+.signup-button {
+  background: linear-gradient(45deg, #00e676, #1de9b6); /* Gradient button */
+  color: var(--primary-bg); /* Dark text on bright button */
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  box-shadow: 0 8px 20px rgba(0, 230, 118, 0.3); /* Vibrant shadow */
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  margin-top: 25px;
+  align-self: center;
+  width: 100%;
+  max-width: 250px; /* Control button width */
+  position: relative; /* Needed for z-index to work */
+  z-index: 1; /* Lower z-index than dropdown menu */
+}
+
+.signup-button:hover {
+  background: linear-gradient(45deg, var(--button-hover), #00c853);
+  box-shadow: 0 12px 25px rgba(0, 230, 118, 0.4);
+  transform: translateY(-2px);
+}
+
+.signup-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(0, 230, 118, 0.2);
+}
+
+/* Animations (adjusted for modern feel and timing) */
+.fade-in-up {
+  animation: fadeInUpModern 0.7s ease-out 0.4s forwards;
+}
+
+@keyframes fadeInUpModern {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeftModern 0.7s ease-out 0.6s forwards;
+}
+
+@keyframes slideInLeftModern {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.zoom-in {
+  animation: zoomInModern 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
+}
+
+@keyframes zoomInModern {
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Staggered delays */
+.delay-1 { animation-delay: 0.8s; }
+.delay-2 { animation-delay: 1s; }
+.delay-3 { animation-delay: 1.2s; }
+.delay-4 { animation-delay: 1.4s; }
+
+.pulse {
+  animation: pulseAnimationModern 2s infinite ease-in-out 2s;
+}
+
+@keyframes pulseAnimationModern {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 8px 20px rgba(0, 230, 118, 0.3);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 12px 25px rgba(0, 230, 118, 0.4);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 8px 20px rgba(0, 230, 118, 0.3);
+  }
+}
+
+.loading-message, .error-message {
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-dark);
+  font-size: 0.95em;
+  margin-top: 10px;
+}
+
+.error-message {
+  color: var(--error-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .register-card {
+    padding: 30px 20px; /* Reduce padding on smaller screens */
+    border-radius: 10px;
+  }
+
+  .register-title {
+    font-size: 1.8rem; /* Smaller title */
+    margin-bottom: 25px;
+  }
+
+  .input-group label {
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+  }
+
+  .modern-input,
+  .modern-react-select__control {
+    padding: 10px 10px 10px 40px !important; /* Adjust padding for smaller inputs */
+    font-size: 0.9rem;
+  }
+
+  .input-icon {
+    width: 18px;
+    height: 18px;
+    left: 10px;
+  }
+
+  .signup-button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    max-width: 200px;
+  }
+
+  .admin-note, .loading-message, .error-message {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .register-card {
+    padding: 25px 15px;
+  }
+  .register-title {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+  }
+  .signup-button {
+    max-width: 180px;
+    font-size: 0.9rem;
+  }
+}
+/* Add to the top of your Register.css */
+/* Modern Color Palette */
+:root {
+  --primary-bg: #1a1a2e; /* Dark background */
+  --secondary-bg: #21253a; /* Slightly lighter card background */
+  --accent-color: #00e676; /* Vibrant green accent */
+  --text-light: #e0e0e0;
+  --text-dark: #a0a0a0;
+  --input-bg: rgba(255, 255, 255, 0.05);
+  --input-border: rgba(255, 255, 255, 0.2);
+  --input-focus-border: var(--accent-color);
+  --button-hover: #00c853; /* Darker green for button hover */
+  --error-color: #ff6f61; /* Soft red for errors */
+}
+
+/* ... (keep all existing CSS from the previous step) ... */
+
+/* Add these new styles to the bottom of Register.css */
+
+/* Login/Forgot Password Specific Styles */
+.login-card {
+  padding: 50px 40px; /* Slightly more vertical padding for simpler forms */
+}
+
+.login-subtitle {
+  color: var(--text-dark);
+  font-size: 1.1rem;
+  margin-bottom: 40px; /* More space below subtitle */
+  opacity: 0;
+  font-weight: 300;
+}
+
+.forgot-password-link {
+  text-align: right; /* Align link to the right */
+  margin-top: -10px; /* Pull it up a bit closer to password field */
+  margin-bottom: 20px;
+  opacity: 0;
+}
+
+.alt-action {
+  color: var(--text-dark);
+  font-size: 0.95rem;
+  margin-top: 30px; /* Space above the "Don't have account" link */
+  opacity: 0;
+  font-weight: 300;
+}
+
+/* General Link Styling */
+.modern-link {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
+}
+
+.modern-link:hover {
+  color: var(--button-hover);
+  text-decoration: underline;
+  text-shadow: 0 0 8px rgba(0, 230, 118, 0.3); /* Subtle glow on hover */
+}
+
+/* Adjust button delay for login form */
+.login-card .signup-button {
+  animation-delay: 1.6s; /* Adjust delay for login button */
+}
+
+/* Adjust alt-action delay for login form */
+.login-card .alt-action {
+    animation-delay: 1.8s; /* Adjust delay for login alt-action */
+}
+
+/* Adding an extra delay for the new link in Register.jsx */
+.delay-5 {
+    animation-delay: 1.7s; /* Ensure this appears after the form */
+}
+
+
+/* Responsive adjustments for Login page */
+@media (max-width: 600px) {
+  .login-card {
+    padding: 40px 20px;
+  }
+  .login-subtitle {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+  .forgot-password-link, .alt-action {
+    font-size: 0.9rem;
+  }
+}
+

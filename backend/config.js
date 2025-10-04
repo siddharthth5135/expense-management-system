@@ -1,8 +1,8 @@
-import {config} from 'dotenv'
+import { config } from 'dotenv'
 config()
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "./prisma/generated/client.js";
 
 const prisma = new PrismaClient();
 
 
-export {prisma}
+export { prisma }
