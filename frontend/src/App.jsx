@@ -6,6 +6,7 @@ import NotFound from './Components/NotFound.jsx';
 import Header from './Components/Header.jsx';
 import ExpensesView from './Components/ExpensesView.jsx';
 import ApprovalsView from './Components/ApprovalsView.jsx';
+import NewExpenseView from './Components/NewExpenseView.jsx';
 
 function App() {
   return (<>
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/admin" element={<AdminView />} />
         <Route path="/expenses" element={<ExpensesView />} />
+        <Route path="/expenses/new" element={<NewExpenseView />} />
         <Route path="/approvals" element={<ApprovalsView />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
